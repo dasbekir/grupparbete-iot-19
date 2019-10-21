@@ -8,19 +8,11 @@ using namespace std;
 
 int main()
 {
-
-	//vector <char> v;
-	
-	string arr;
+	string word;
 
 
 	cout << "Enter a word: ";
-	getline(cin, arr);
-
-	cout << arr << endl;
-
-
-
+	getline(cin, word);
 
 	return 0;
 }
