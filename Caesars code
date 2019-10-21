@@ -1,2 +1,91 @@
 #include <iostream>
+#include <string.h>
 using namespace std;
+
+string encrypt(const string&, const string&, const string&);
+string decrypt(const string&, const string&, const string&);
+char solve(string& ctext, string& alphabet, string crib);
+
+string makeCipher(char&, string&);
+
+int main()
+{
+	char key;
+	cout << "    Please enter key: ";
+	cin >> key;
+
+	const string plain = "THIS IS  A TEST MESSAGE 78";
+	cout << "          Plain text: " << plain << endl;
+
+	string A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 ";
+
+	string E = makeCipher(key, A);
+
+	string encryptedMsg = encrypt(plain, A, E);
+	cout << "   Encrypted message: " << encryptedMsg << endl;
+
+	string decryptedMsg = decrypt(encryptedMsg, A, E);
+	cout << "   Decrypted message: " << decryptedMsg << endl;
+
+	char foundKey = solve(encryptedMsg, A, "IS");
+	cout << "         Solution is: " << foundKey << endl;
+
+	return 0;
+}
+
+string encrypt(const string& plain, const string& A, const string& E)
+{
+	size_t pos = 0;
+	string strEncrypted = "";
+
+	for (int i = 0; i < plain.length(); i++)
+	{
+		pos = A.find(plain[i]);
+		strEncrypted += E[pos];
+	}
+	return strEncrypted;
+}
+
+string decrypt(const string& ciphertext, const string& A, const string& E)
+{
+	return encrypt(ciphertext, E, A);
+}
+
+string makeCipher(char& key, string& alphabet)
+{
+	string strCipher = "";
+	size_t limit = alphabet.length();
+	size_t base;
+	size_t pos = alphabet.find(key);
+
+	for (int i = 0; i < alphabet.length(); i++)
+	{
+		base = (limit + i + pos) % limit;
+		strCipher += alphabet[base];
+	}
+
+	return strCipher;
+}
+
+char solve(string& ctext, string& alphabet, string crib)
+{
+	char key = '*';
+	size_t limit = alphabet.length();
+	size_t found;
+	string cipher, trial;
+
+	for (int i = 0; i < limit; i++)
+	{
+		key = alphabet[i];
+		cipher = makeCipher(key, alphabet);
+		trial = decrypt(ctext, alphabet, cipher);
+
+		found = trial.find(crib);
+		if (found != string::npos)
+			break;
+		else
+			key = '*';
+	}
+
+	return key;
+}
