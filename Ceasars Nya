@@ -6,6 +6,8 @@ using namespace std;
 
 
 string getEncrypt(string);
+string getDecrypt(string);
+
 
 int main()
 {
@@ -16,13 +18,22 @@ int main()
 	getline(cin, word);
 
 	string encryptedWord = getEncrypt(word);
+	
+        cout << encryptedWord << endl;
 
+	cout << "Please type in the new word to decrypt it back: ";
+	getline(cin, word);
 
-	cout << encryptedWord << endl;
+	string decryptedWord = getDecrypt(word);
+
+	cout << decryptedWord << endl;
 
 
 	return 0;
 }
+
+
+
 string getEncrypt(string word)
 {
 	int encrypt;
@@ -39,9 +50,25 @@ string getEncrypt(string word)
 			{
 				counter = 0;
 			}
-			
 	}
+	return result;
+}
+string getDecrypt(string word)
+{
+	int encrypt;
+	vector <int> key = { 1,4,2,5, };
+	string result;
+	int counter = 0;
 
+	for (int i = 0; i < word.length(); i++)
+	{
+		encrypt = ((int)word[i] - key[counter++]);
+		result += (char)encrypt;
 
+		if (counter == 4)
+		{
+			counter = 0;
+		}
+	}
 	return result;
 }
