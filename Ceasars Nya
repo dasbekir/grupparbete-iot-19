@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string getEncrypt(string);
+
+int main()
+{
+
+	string word;
+
+	cout << "Please type a word to encrypt: ";
+	getline(cin, word);
+
+	string encryptedWord = getEncrypt(word);
+
+
+	cout << encryptedWord << endl;
+
+
+	return 0;
+}
+string getEncrypt(string word)
+{
+	int encrypt;
+	vector <int> key = { 1,4,2,5, };
+	string result;
+
+	for (int i = 0; i < word.length(); i++)
+	{
+			encrypt = ((int)word[i] + key[i]);
+			result += (char)encrypt;
+			key.push_back(3);
+	}
+	
+	return result;
+}
